@@ -15,11 +15,11 @@ GetGeneList(Species, build, featuretype = c("GENE", "PSEUDO"),
 \arguments{
   \item{Species}{
 This term designates the species to be used in the function and is dependent on the scientific name.
-Options: Must include in quotation markers and can either separate the genus and species by a space or an underscore (e.g., "Bos taurus" or "Bos_taurus").
+Options: Must include in quotation marks and can either separate the genus and species by a space or an underscore (e.g., "Bos taurus" or "Bos_taurus").
 }
   \item{build}{
-This is a numerical term that designates the species' current genome build to use in the analysis.
-Options: Must be in numerical form and not surrounded by quotation marks (e.g., 6.1). These functions may not be compatible with earlier versions of genome builds. To see if a current build is available for a particular species, go to: ftp://ftp.ncbi.nih.gov/genomes/MapView/
+This term designates the species' current genome build to use in the analysis.
+Options: Must include in quotation marks for the entire build name (e.g., "BUILD.6.1" or "ANNOTATION_RELEASE.104"). These functions may not be compatible with earlier versions of genome builds. To see if a current build is available for a particular species, go to: ftp://ftp.ncbi.nih.gov/genomes/MapView/
 }
   \item{featuretype}{
 This specifies which feature type(s) the user wants to use and collect. Default setting includes genes and pseudo genes, but user can specify more or less. Each feature type must be in quotation marks. Using multiple feature types must be included as a list (e.g., c("GENE","RNA")).
@@ -59,7 +59,7 @@ Column headings and descriptions of the file returned to the user from the "GetG
   \item{evidence_code}{The evidence code or information, if given.}
 }
 \references{
-Publication of journal article on the Map2NCBI package is pending.
+Hulsman Hanna, L. L., and D. G. Riley. 2014. Mapping genomic markers to closest feature using the R package Map2NCBI. Livest. Sci. 162:59-65.
 }
 \author{
 Lauren L. Hulsman Hanna and
@@ -80,6 +80,6 @@ For issues or problems with this function, please contact Lauren Hanna at Lauren
 #user input. Please note that pressing "Enter" prematurely 
 #can cause the function to not run properly.
 \dontrun{
-GeneList = GetGeneList("Bos taurus",build=6.1,savefiles=TRUE,destfile="~/Map2NCBI/data/Test/")
+GeneList = GetGeneList("Bos taurus",build="BUILD.6.1",savefiles=TRUE,destfile=path.expand("~/"))
 }
 }

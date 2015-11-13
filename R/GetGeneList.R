@@ -16,7 +16,7 @@ GetGeneList = function(Species,build,featuretype=c("GENE","PSEUDO"),savefiles=FA
 	cat("Please be patient, this could take a few minutes.","\n")
 	Species = sub(" ","_",Species)
 	dest = paste(destfile,"seq_gene.md.gz",sep="")
-	URL = paste("ftp://ftp.ncbi.nih.gov/genomes/MapView/",Species,"/sequence/BUILD.",build,"/initial_release/seq_gene.md.gz",sep="")
+	URL = paste("ftp://ftp.ncbi.nih.gov/genomes/MapView/",Species,"/sequence/",build,"/initial_release/seq_gene.md.gz",sep="")
      	download.file(URL,dest,cacheOK=TRUE)
 	cat("Reading in file...","\n")
 	NCBIList<-read.table(gzfile(dest),header=FALSE,fill=TRUE) 
@@ -24,7 +24,7 @@ GetGeneList = function(Species,build,featuretype=c("GENE","PSEUDO"),savefiles=FA
 		NCBIList<-NCBIList[,1:15]
 	}
 	feature_type = group_label = NULL
-  colnames(NCBIList) = c("tax_id","chromosome","chr_start","chr_stop","chr_orient",
+  	colnames(NCBIList) = c("tax_id","chromosome","chr_start","chr_stop","chr_orient",
 		"contig","ctg_start","ctg_stop","ctg_orient","feature_name","feature_id","feature_type","group_label","transcript",
 		"evidence_code")
 	ListF = matrix(0,1,15,dimnames=list(1,colnames(NCBIList)))
@@ -43,7 +43,6 @@ GetGeneList = function(Species,build,featuretype=c("GENE","PSEUDO"),savefiles=FA
 	}
 	Assembly = matrix(unique(ListF[,'group_label']),ncol=1) 
 	Features = matrix(unique(ListF[,'feature_type']),ncol=1)
-	Genes = matrix(unique(ListF[,'feature_name']),ncol=1)
 	cat("Duplicate gene information may be present due to multiple assemblies and feature types.","\n",
 		"The following assembly builds are present in this list:","\n")
 		print(Assembly)
@@ -68,12 +67,19 @@ GetGeneList = function(Species,build,featuretype=c("GENE","PSEUDO"),savefiles=FA
 				stop("ERROR: You specified a number outside the range possible for the feature types.")
 			}
 		}
-	ListF = subset(ListF,group_label==Assembly[y,1])
+	##Finding Unique List of Genes Based on Assembly Preference ###
+	ListAy = subset(ListF, group_label==Assembly[y,1])	
+	ListAn = subset(ListF, !(ListF$feature_name %in% ListAy[,'feature_name']))
+	ListUnA = rbind(ListAy,ListAn)
+
+	##Finding Unique List of Genes Based on Whether Multiple Features are kept or not ###
 	if(x == "n"){
-		GeneList = subset(ListF,feature_type==Features[z,1])
+		ListFez = subset(ListUnA,feature_type==Features[z,1])
+		ListFen = subset(ListUnA,!(ListUnA$feature_name %in% ListFez[,'feature_name']))
+		GeneList = rbind(ListFez,ListFen)
 	}
 	if(x == "y"){
-		GeneList = ListF
+		GeneList = ListUnA
 	}
 	if(x != "y"){
 		if(x != "n"){
@@ -81,10 +87,10 @@ GetGeneList = function(Species,build,featuretype=c("GENE","PSEUDO"),savefiles=FA
 				"Please start over and enter y for yes or n for no when prompted.")
 		}
 	}					
+	GeneList=GeneList[order(GeneList$chromosome,GeneList$chr_start),] ##Sorting by Chr & Start Position##
 	if(savefiles==TRUE){
 		write.table(GeneList,paste(destfile,"GeneList.txt",sep=""),quote=FALSE,sep=" ",row.names=FALSE)
 	}
 	cat("Finished processing features and assemblies. The list will now be returned to the user.","\n")
 	return(GeneList)
 }
-

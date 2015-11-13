@@ -60,8 +60,8 @@ MapMarkers = function(features,markers,nAut,other=c("X"),destfile,savefiles=TRUE
 					MapIt = cbind(MarkerInfo,FeatureInfo,Inside)
 					MaxDis = 1000000
 					for(feature in 1:nfeatures){ 
-						Start = Chr_Features[feature,'chr_start']
-						Stop = Chr_Features[feature,'chr_stop']
+						Start = as.numeric(Chr_Features[feature,'chr_start'])
+						Stop = as.numeric(Chr_Features[feature,'chr_stop'])
 						DisStart = MapPos-Start
 						DisStop = MapPos-Stop
 						if(DisStart >= -2500){
@@ -95,8 +95,8 @@ MapMarkers = function(features,markers,nAut,other=c("X"),destfile,savefiles=TRUE
 					}
 					if(MapIt[,'Inside?'] == 0){
 						for(feature in 1:nfeatures){
-							Start = Chr_Features[feature,'chr_start']
-							Stop = Chr_Features[feature,'chr_stop']
+							Start = as.numeric(Chr_Features[feature,'chr_start'])
+							Stop = as.numeric(Chr_Features[feature,'chr_stop'])
 							DisStart = MapPos-Start
 							DisStop = MapPos-Stop				
 							if(DisStop <= 5000){
@@ -117,8 +117,8 @@ MapMarkers = function(features,markers,nAut,other=c("X"),destfile,savefiles=TRUE
 					}
 					if(MapIt[,'Inside?'] == 0){			
 						for(feature in 1:nfeatures){
-							Start = Chr_Features[feature,'chr_start']
-							Stop = Chr_Features[feature,'chr_stop']
+							Start = as.numeric(Chr_Features[feature,'chr_start'])
+							Stop = as.numeric(Chr_Features[feature,'chr_stop'])
 							DisStart = MapPos-Start
 							DisStop = MapPos-Stop
 							if(DisStart >= -25000){
@@ -139,8 +139,8 @@ MapMarkers = function(features,markers,nAut,other=c("X"),destfile,savefiles=TRUE
 					}
 					if(MapIt[,'Inside?'] == 0){
 						for(feature in 1:nfeatures){
-							Start = Chr_Features[feature,'chr_start']
-							Stop = Chr_Features[feature,'chr_stop']
+							Start = as.numeric(Chr_Features[feature,'chr_start'])
+							Stop = as.numeric(Chr_Features[feature,'chr_stop'])
 							DisStart = MapPos-Start
 							DisStop = MapPos-Stop
 							if(DisStart > (-1*MaxDis)){
@@ -164,8 +164,8 @@ MapMarkers = function(features,markers,nAut,other=c("X"),destfile,savefiles=TRUE
 					if(MapIt[,'Inside?'] == 0){
 						MaxDis = 30000000
 						for(feature in 1:nfeatures){
-							Start = Chr_Features[feature,'chr_start']
-							Stop = Chr_Features[feature,'chr_stop']
+							Start = as.numeric(Chr_Features[feature,'chr_start'])
+							Stop = as.numeric(Chr_Features[feature,'chr_stop'])
 							DisStart = MapPos-Start
 							DisStop = MapPos-Stop
 							if(DisStart > (-1*MaxDis)){

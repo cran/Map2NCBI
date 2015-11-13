@@ -69,7 +69,7 @@ NOTE: Order of the columns in both files are not necessarily important, but corr
 
 }
 \references{
-Publication of journal article on the Map2NCBI package is pending.
+Hulsman Hanna, L. L., and D. G. Riley. 2014. Mapping genomic markers to closest feature using the R package Map2NCBI. Livest. Sci. 162:59-65.
 }
 \author{
 Lauren L. Hulsman Hanna and David G. Riley
