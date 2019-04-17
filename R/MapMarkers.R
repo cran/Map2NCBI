@@ -3,9 +3,10 @@
 ### Hanna and Riley                       ###
 #############################################
 
-
-MapMarkers = function(features,markers,nAut,other=c("X"),destfile,savefiles=TRUE){
-		if(missing(features)){
+MapMarkers = function(features,markers,nAut,other=c("X"),savefiles=TRUE,destfile){
+    chromosome = NULL
+    if(getRversion() >= "2.15.1")  utils::globalVariables(c("chromosome"))
+    if(missing(features)){
 			stop("ERROR: Did not specify list of features to use for mapping.")
 		}
 		if(missing(markers)){
@@ -21,31 +22,25 @@ MapMarkers = function(features,markers,nAut,other=c("X"),destfile,savefiles=TRUE
 			dest = paste(destfile,"MappedMarkers.txt",sep="")
 			}
 		}
-		if(other == FALSE){
-			chr = matrix(1:nAut,ncol=1)
-			nchr = nAut
-		} else{
-			Aut = matrix(1:nAut,ncol=1)
-			nchr = nAut
-			other = matrix(other,ncol=1)
-			Oth = matrix(0,dim(other)[1],1)
-			for(i in 1:nrow(other)){
-				Oth[i,1] = nchr+1
-				nchr = nchr+1
-			}
-			chr = rbind(Aut,Oth)
-		}
-		chromosome = NULL
-    Colnames = matrix(c(colnames(markers),colnames(features),"Distance","Inside?"),nrow=1)
-		nCol = ncol(Colnames)
-		MarkMap = matrix(0,1,nCol,byrow=TRUE,dimnames=list(c(1),Colnames))
+    if(other == FALSE){
+      chr = matrix(1:nAut,ncol=1)
+      nchr = nAut
+    } else{
+      Aut = matrix(1:nAut,ncol=1)
+      nchr = nAut
+      other = matrix(other,ncol=1)
+      Oth = matrix(0,dim(other)[1],1)
+      for(i in 1:nrow(other)){
+        Oth[i,1] = nchr+1
+        nchr = nchr+1
+      }
+      chr = rbind(Aut,Oth)
+    }
+		nCol = dim(array(c(colnames(markers),colnames(features),"Distance","Inside?")))
+		MarkMap = matrix(0,1,nCol,byrow=TRUE,dimnames=list(c(1),array(c(colnames(markers),colnames(features),"Distance","Inside?"))))
 		GLnCol = ncol(features)
 		for(i in 1:nchr){
-			if(i > nAut){
-				j = i-nAut
-				k = other[j,1]
-			} else { k = i }
-			Chr_Features = subset(features, chromosome==k)
+			Chr_Features = subset(features, chromosome==i)
 			Chr_Markers = subset(markers, chromosome==i)
 			nmarkers = nrow(Chr_Markers)
 			nfeatures = nrow(Chr_Features)
@@ -59,9 +54,9 @@ MapMarkers = function(features,markers,nAut,other=c("X"),destfile,savefiles=TRUE
 					Inside = matrix(0,1,2,byrow=TRUE,dimnames=list(1,c("Distance","Inside?")))
 					MapIt = cbind(MarkerInfo,FeatureInfo,Inside)
 					MaxDis = 1000000
-					for(feature in 1:nfeatures){ 
-						Start = as.numeric(Chr_Features[feature,'chr_start'])
-						Stop = as.numeric(Chr_Features[feature,'chr_stop'])
+					for(feature in 1:nfeatures){
+						Start = as.numeric(Chr_Features[feature,'start'])
+						Stop = as.numeric(Chr_Features[feature,'end'])
 						DisStart = MapPos-Start
 						DisStop = MapPos-Stop
 						if(DisStart >= -2500){
@@ -95,10 +90,10 @@ MapMarkers = function(features,markers,nAut,other=c("X"),destfile,savefiles=TRUE
 					}
 					if(MapIt[,'Inside?'] == 0){
 						for(feature in 1:nfeatures){
-							Start = as.numeric(Chr_Features[feature,'chr_start'])
-							Stop = as.numeric(Chr_Features[feature,'chr_stop'])
+							Start = as.numeric(Chr_Features[feature,'start'])
+							Stop = as.numeric(Chr_Features[feature,'end'])
 							DisStart = MapPos-Start
-							DisStop = MapPos-Stop				
+							DisStop = MapPos-Stop
 							if(DisStop <= 5000){
 								if(DisStop > 2500){
 									FeatureInfo = Chr_Features[feature,]
@@ -107,7 +102,7 @@ MapMarkers = function(features,markers,nAut,other=c("X"),destfile,savefiles=TRUE
 								}
 							}
 							if(DisStart >= -5000){
-								if(DisStart < -2500){		
+								if(DisStart < -2500){
 									FeatureInfo = Chr_Features[feature,]
 									Inside[1,] = c(abs(DisStart),"Marker_is_>_2500_bp_<=5000_bp_Before_Feature")
 									MapIt = cbind(MarkerInfo,FeatureInfo,Inside)
@@ -115,10 +110,10 @@ MapMarkers = function(features,markers,nAut,other=c("X"),destfile,savefiles=TRUE
 							}
 						}
 					}
-					if(MapIt[,'Inside?'] == 0){			
+					if(MapIt[,'Inside?'] == 0){
 						for(feature in 1:nfeatures){
-							Start = as.numeric(Chr_Features[feature,'chr_start'])
-							Stop = as.numeric(Chr_Features[feature,'chr_stop'])
+							Start = as.numeric(Chr_Features[feature,'start'])
+							Stop = as.numeric(Chr_Features[feature,'end'])
 							DisStart = MapPos-Start
 							DisStop = MapPos-Stop
 							if(DisStart >= -25000){
@@ -139,8 +134,8 @@ MapMarkers = function(features,markers,nAut,other=c("X"),destfile,savefiles=TRUE
 					}
 					if(MapIt[,'Inside?'] == 0){
 						for(feature in 1:nfeatures){
-							Start = as.numeric(Chr_Features[feature,'chr_start'])
-							Stop = as.numeric(Chr_Features[feature,'chr_stop'])
+							Start = as.numeric(Chr_Features[feature,'start'])
+							Stop = as.numeric(Chr_Features[feature,'end'])
 							DisStart = MapPos-Start
 							DisStop = MapPos-Stop
 							if(DisStart > (-1*MaxDis)){
@@ -164,8 +159,8 @@ MapMarkers = function(features,markers,nAut,other=c("X"),destfile,savefiles=TRUE
 					if(MapIt[,'Inside?'] == 0){
 						MaxDis = 30000000
 						for(feature in 1:nfeatures){
-							Start = as.numeric(Chr_Features[feature,'chr_start'])
-							Stop = as.numeric(Chr_Features[feature,'chr_stop'])
+							Start = as.numeric(Chr_Features[feature,'start'])
+							Stop = as.numeric(Chr_Features[feature,'end'])
 							DisStart = MapPos-Start
 							DisStop = MapPos-Stop
 							if(DisStart > (-1*MaxDis)){
@@ -187,9 +182,9 @@ MapMarkers = function(features,markers,nAut,other=c("X"),destfile,savefiles=TRUE
 						}
 					}
 				MarkMap = rbind(MarkMap,MapIt)
-				}	
+				}
 			}else { next }
-		} 
+		}
 		MarkMapF = MarkMap[2:nrow(MarkMap),]
 		if(savefiles == TRUE){
 			write.table(MarkMapF,dest,quote=FALSE,sep=" ",row.names=FALSE)

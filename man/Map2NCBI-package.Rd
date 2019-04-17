@@ -12,8 +12,8 @@ Allows the user to generate a list of features (gene, pseudo, RNA, CDS, and/or U
 \tabular{ll}{
 Package: \tab Map2NCBI\cr
 Type: \tab Package\cr
-Version: \tab 1.1\cr
-Date: \tab 2015-11-12\cr
+Version: \tab 1.2\cr
+Date: \tab 2019-4-15\cr
 License: \tab GPL (>= 2)\cr
 }
 This package can be used as a two part process with the "GetGeneList" function followed by the "MapMarkers" function. See individual function documentation for more information.
@@ -26,6 +26,8 @@ Maintainer: Lauren Hanna <Lauren.Hanna@ndsu.edu>
 }
 \references{
 Hulsman Hanna, L. L., and D. G. Riley. 2014. Mapping genomic markers to closest feature using the R package Map2NCBI. Livest. Sci. 162:59-65.
+
+National Center for Biotechnology Information. 2018. Latest assembly version 'README' file, last updated 26 February 2018. Available at: https://ftp.ncbi.nlm.nih.gov/genomes/refseq/README.txt (Accessed 14 April 2019).
 }
 %~~ Optionally other standard keywords, one per line, from file KEYWORDS in the R documentation directory ~~
 \keyword{ package }
