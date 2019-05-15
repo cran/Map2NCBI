@@ -5,7 +5,7 @@
 Output from GetGeneList function for BTA 1
 }
 \description{
-This output is provided to run the MapMarkers function example. It was generated using the GetGeneList function example (see GetGeneList documentation) and truncated to only include BTA 1 data.
+This output is provided to run the \code{\link{MapMarkers}} function example. It was generated using the \code{\link{GetGeneList}} function example and truncated to only include BTA 1 data.
 }
 \usage{data(GeneList_BTA1)}
 \format{

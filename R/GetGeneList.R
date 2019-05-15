@@ -1,9 +1,10 @@
 #############################################
 ### Code to create function "GetGeneList" ###
-### Hanna and Riley                       ###
+### Hanna and Riley for assembly builds   ###
+### in 2018 or later.                     ###
 #############################################
 
-GetGeneList = function(Species,savefiles=FALSE,destfile){
+GetGeneList = function(Species,savefiles=TRUE,destfile){
   assembly = NULL
   if(missing(Species)){
 		stop("ERROR: No species specified")
