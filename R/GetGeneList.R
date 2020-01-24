@@ -1,10 +1,9 @@
 #############################################
 ### Code to create function "GetGeneList" ###
-### Hanna and Riley for assembly builds   ###
-### in 2018 or later.                     ###
+### Hanna and Riley                       ###
 #############################################
 
-GetGeneList = function(Species,savefiles=TRUE,destfile){
+GetGeneList = function(Species,latest = TRUE,savefiles=TRUE,destfile){
   assembly = NULL
   if(missing(Species)){
 		stop("ERROR: No species specified")
@@ -14,10 +13,23 @@ GetGeneList = function(Species,savefiles=TRUE,destfile){
 	}
 	cat("Please be patient, this could take a few minutes.","\n")
 	dest = paste(destfile,"feature_table.txt.gz",sep="")
-	term = paste(Species,"[orgn] latest_refseq[filter]",sep = "")
-	AssemblyInfo = entrez_search(db="assembly",term,use_history = TRUE)
-	AssemblySum = entrez_summary("assembly",web_history = AssemblyInfo$web_history)
-	URL = paste(extract_from_esummary(AssemblySum,"ftppath_refseq"),"/",extract_from_esummary(AssemblySum,"assemblyaccession"),"_",extract_from_esummary(AssemblySum,"assemblyname"),"_feature_table.txt.gz",sep="")
+	if(latest==TRUE){
+	  term = paste(Species,"[orgn] latest_refseq[filter]",sep = "")
+	  AssemblyInfo = entrez_search(db="assembly",term,use_history = TRUE)
+	  AssemblySum = entrez_summary("assembly",web_history = AssemblyInfo$web_history)
+	  URL = paste(extract_from_esummary(AssemblySum,"ftppath_refseq"),"/",extract_from_esummary(AssemblySum,"assemblyaccession"),"_",extract_from_esummary(AssemblySum,"assemblyname"),"_feature_table.txt.gz",sep="")
+	}else{
+	  term = paste(Species,"[orgn]",sep="")
+	  AssemblyInfo = entrez_search(db="assembly",term,use_history=TRUE)
+	  AssemblySum=entrez_summary("assembly",web_history=AssemblyInfo$web_history)
+	  Assemblies = extract_from_esummary(AssemblySum,"ftppath_refseq")
+	  Assemblies = Assemblies[which(!(Assemblies==""))]
+	  cat("The following ftp links for genome assemblies are available.","\n")
+	  print(Assemblies)
+	  b = readline("Please Enter the column number corresponding to the assembly you wish to use: \n")
+	  b = as.character(b)
+	  URL = paste(extract_from_esummary(AssemblySum,"ftppath_refseq")[b],"/",extract_from_esummary(AssemblySum,"assemblyaccession")[b],"_",extract_from_esummary(AssemblySum,"assemblyname")[b],"_feature_table.txt.gz",sep="")
+	}
 	cat("Reading in file...","\n")
 	   	download.file(URL,dest,cacheOK=TRUE)
 	    remove(term,AssemblyInfo,AssemblySum,URL)
@@ -105,8 +117,8 @@ GetGeneList = function(Species,savefiles=TRUE,destfile){
 	}
 	FeatureList=ListSubAFC[order(ListSubAFC[,"chromosome"],ListSubAFC[,"start"]),] ##Sorting by Chr & Start Position##
 	if(savefiles == TRUE){
-		write.table(NCBIList,paste(destfile,"full_feature_table.txt",sep=""),quote=FALSE,sep="\t",row.names=FALSE)
-	  write.table(FeatureList,paste(destfile,"subsetted_feature_table.txt",sep=""),quote=FALSE,sep="\t",row.names=FALSE)
+		write.table(NCBIList,paste(destfile,"/full_feature_table.txt",sep=""),quote=FALSE,sep="\t",row.names=FALSE)
+	  write.table(FeatureList,paste(destfile,"/subsetted_feature_table.txt",sep=""),quote=FALSE,sep="\t",row.names=FALSE)
 	  remove(ListSubAFC,NCBIList)
 	}
 	if(savefiles == FALSE){

@@ -13,7 +13,7 @@ MapMarkers(features, markers, nAut, other = c("X"), savefiles = TRUE, destfile)
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{features}{
-This is the table or matrix in the current R session that will be used to map the marker list to. If using the \code{GetGeneList} function, the name given to the output should be supplied here (e.g., "GeneList" from the example provided in the \code{\link{GetGeneList}} documentation file). Note: If using a feature list generated using version 1.1 of this package, please review column names below for changes in format to ensure the function runs properly. If you need a genome build prior to 2018, see help documentation for \code{\link{GetGeneList_v11}} function.
+This is the table or matrix in the current R session that will be used to map the marker list to. If using the \code{GetGeneList} function, the name given to the output should be supplied here (e.g., "GeneList" from the example provided in the \code{\link{GetGeneList}} documentation file). Note: If using a feature list generated using version 1.1 of this package, please review column names below for changes in format to ensure the function runs properly.
 }
   \item{markers}{
 This is the table or matrix in the current R session that will provide marker map information to use for the function. See \code{Values} for format of the marker file needed.

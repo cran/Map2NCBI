@@ -2,13 +2,13 @@
 \alias{GetGeneList}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-A Function to Filter and Save Genomic Features from NCBI (2018 or newer builds)
+A Function to Filter and Save Genomic Features from NCBI (all builds)
 }
 \description{
-\code{GetGeneList} allows the user to access the NCBI database for the species specified using the secure ftp site, download feature information for the latest genome build, as well as filter and save feature information for future use. This is completed using the \pkg{\link{rentrez}} package and will only find the latest assembly for that species. If you are needing an older assembly, see \code{\link{GetGeneList_v11}} function. Once the \code{GetGeneList} function is complete, no other access to NCBI or the internet is required. This function requires user input to determine the feature and class types that will be retained during the filtering process. Note: The requirements for this function have changed slightly due to NCBI ftp site organization changes.
+\code{GetGeneList} allows the user to access the NCBI database for the species specified using the secure ftp site, download feature information as well as filter and save feature information for future use. This update now allows users to specify if the latest assembly build should be used or not using the \pkg{\link{rentrez}} package. Once the \code{GetGeneList} function is complete, no other access to NCBI or the internet is required. This function requires user input to determine the feature and class types that will be retained during the filtering process. Note: The requirements for this function have changed slightly due to NCBI ftp site organization changes.
 }
 \usage{
-GetGeneList(Species,savefiles = TRUE, destfile)
+GetGeneList(Species,latest = TRUE, savefiles = TRUE, destfile)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -16,16 +16,19 @@ GetGeneList(Species,savefiles = TRUE, destfile)
 This term designates the species to be used in the function and is dependent on the scientific name.
 Options: Must include in quotation marks, where the genus and species should be separated by a space (e.g., "Bos taurus").
 }
+  \item{latest}{
+Default is true. This term indicates if the most recent (latest) assembly build for that species should be used to get genomic features for. If set to false, the user will be prompted to idenify the assembly to use. In some species, the same assembly link may be listed more than once (e.g. GCF_000003055.6_Bos_taurus_UMD_3.1.1 vs. GCF_000003055.5_Bos_taurus_UMD_3.1.1). In any case, there is a number that designates one with a higher file number (e.g., "3055.6" vs. "3055.5" for Bos taurus 3.1). Always start with the higher file number for that build as it likely contains the feature table. If this fails, then try the other version. The assembly build should always match the marker map file build.
+}
   \item{savefiles}{
 Default is true. This term allows you to save the original feature list downloaded from the NCBI database as a text file as well as the filtered feature list produced from the function only if set to TRUE.
 Options: Must be either TRUE or FALSE.
 }
   \item{destfile}{
-This is the pathway to the computer location in which files will be saved and must be specified using quotation marks (e.g., \code{"C:/Temp/"} or \code{paste(getwd(),"/",sep="")}).
+This is the pathway to the computer location in which files will be saved and must be specified using quotation marks (e.g., \code{getwd()}).
 }
 }
 \details{
-In running this function, the user will be prompted to enter feedback after the file downloads. Items that will be requested, if multiples are present include 1) primary genome build, 2) primary feature type, and 3) primary class type to prioritize filtering the dataset on. In each case, the user can opt to keep all feature and class types. This will mean that duplicate information is available per gene ID. If filtered, all unique gene ID will be returned, where preference is given to the class feature and class types specified. Gene ID without the preferred feature and class types will be queried for their available information and added while still removing duplicates. The file returned contains 20 columns based on the current NCBI file structure. Those column headings and descriptions are provided below in the \code{Value} section.
+In running this function, the user will be prompted to enter feedback after the file downloads. Items that will be requested, if multiples are present include 1) primary feature type and 2) primary class type to prioritize filtering the dataset on. In each case, the user can opt to keep all feature and class types. This will mean that duplicate information is available per gene ID. If filtered, all unique gene ID will be returned, where preference is given to the class feature and class types specified. Gene ID without the preferred feature and class types will be queried for their available information and added while still removing duplicates. The file returned contains 20 columns based on the current NCBI file structure. Those column headings and descriptions are provided below in the \code{Value} section.
 
 Note: While waiting for the function to run, if the user presses "Enter" prematurely, this will result in the function not running correctly and it will have to be started over. Please read instructions carefully.
 
@@ -59,7 +62,7 @@ Column headings and descriptions returned to the user from the \code{GetGeneList
 \references{
 Hulsman Hanna, L. L., and D. G. Riley. 2014. Mapping genomic markers to closest feature using the R package Map2NCBI. Livest. Sci. 162:59-65. doi:\href{https://doi.org/10.1016/j.livsci.2014.01.019}{10.1016/j.livsci.2014.01.019}
 
-National Center for Biotechnology Information. 2018. Latest assembly version 'README' file, last updated 26 February 2018. Available at: \url{https://ftp.ncbi.nlm.nih.gov/genomes/refseq/README.txt} (Accessed 14 April 2019).
+National Center for Biotechnology Information. 2018. Latest assembly version 'README' file, last updated 26 February 2018. Available at: \url{https://ftp.ncbi.nlm.nih.gov/genomes/refseq/README.txt} (Accessed 23 Jan 2020).
 }
 \author{
 Lauren L. Hulsman Hanna and
@@ -71,7 +74,8 @@ For issues or problems with this function, please contact Lauren Hanna at \email
 
 
 \seealso{
-  Function: \code{\link{MapMarkers}}
+  Function: \code{\link{MapMarkers}},
+  Package: \pkg{\link{rentrez}}
 }
 \examples{
 #Example 1: Run the following example and, when prompted,
@@ -80,6 +84,6 @@ For issues or problems with this function, please contact Lauren Hanna at \email
 #user input. Please note that pressing "Enter" prematurely
 #can cause the function to not run properly.
 \dontrun{
-GeneList = GetGeneList("Bos taurus",savefiles=TRUE,destfile=path.expand("~/"))
+GeneList = GetGeneList("Bos taurus",destfile=getwd())
 }
 }
