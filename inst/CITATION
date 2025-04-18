@@ -1,24 +1,24 @@
 citHeader("To cite the 'Map2NCBI' package in publications use:")
 
-citEntry(
-    entry = "Manual",
+bibentry(
+    bibtype = "Manual",
+    textVersion = "Lauren L. Hulsman Hanna and David G. Riley. 2025.
+      Map2NCBI: Mapping Markers to the Nearest Genomic Feature. R-package version 1.5. https://CRAN.R-project.org/package=Map2NCBI",
     title = "Map2NCBI: Mapping Markers to the Nearest Genomic Feature",
     author = c(person(c("Lauren","L."),"Hulsman Hanna"),person(c("David","G."),"Riley")),
-    year = 2020,
-    note = "R-package version 1.4",
-    url = "https://CRAN.R-project.org/package=Map2NCBI",
-    textVersion = "Lauren L. Hulsman Hanna and David G. Riley. 2020.
-      Map2NCBI: Mapping Markers to the Nearest Genomic Feature. R-package version 1.4. https://CRAN.R-project.org/package=Map2NCBI"
+    year = 2025,
+    note = "R-package version 1.5",
+    url = "https://CRAN.R-project.org/package=Map2NCBI"
 )
-citEntry(
-    entry = "Article",
+bibentry(
+    bibtype = "Article",
+    textVersion = "Lauren L. Hulsman Hanna and David G. Riley. 2014. Mapping genomic markers to closest feature using the R package Map2NCBI.
+      Livest. Sci. 162:59-65. https://doi.org/10.1016/j.livsci.2014.01.019",
     title = "Mapping genomic markers to closest feature using the R package Map2NCBI",
     author = c(person(c("Lauren","L."),"Hulsman Hanna"),person(c("David","G."),"Riley")),
     doi = "10.1016/j.livsci.2014.01.019",
     journal = "Livest. Sci.",
     volume = "162",
     pages="59-65",
-    year="2014",
-    textVersion = "Lauren L. Hulsman Hanna and David G. Riley. 2014. Mapping genomic markers to closest feature using the R package Map2NCBI.
-      Livest. Sci. 162:59-65. https://doi.org/10.1016/j.livsci.2014.01.019"
+    year="2014"
 )

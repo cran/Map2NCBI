@@ -5,7 +5,7 @@
 A Function to Filter and Save Genomic Features from NCBI (all builds)
 }
 \description{
-\code{GetGeneList} allows the user to access the NCBI database for the species specified using the secure ftp site, download feature information as well as filter and save feature information for future use. This update now allows users to specify if the latest assembly build should be used or not using the \pkg{\link{rentrez}} package. Once the \code{GetGeneList} function is complete, no other access to NCBI or the internet is required. This function requires user input to determine the feature and class types that will be retained during the filtering process. Note: The requirements for this function have changed slightly due to NCBI ftp site organization changes.
+\code{GetGeneList} allows the user to access the NCBI database for the species specified using the secure ftp site, download feature information as well as filter and save feature information for future use. This update now allows users to specify if the latest assembly build should be used or not using the \link[rentrez]{rentrez} package. Once the \code{GetGeneList} function is complete, no other access to NCBI or the internet is required. This function requires user input to determine the feature and class types that will be retained during the filtering process. Note: The requirements for this function have changed slightly due to NCBI ftp site organization changes.
 }
 \usage{
 GetGeneList(Species,latest = TRUE, savefiles = TRUE, destfile)
@@ -60,9 +60,9 @@ Column headings and descriptions returned to the user from the \code{GetGeneList
   \item{attributes}{A semi-colon delimited list of a controlled set of qualifiers, if available. The list currently includes: partial, pseudo, pseudogene, ribosomal_slippage, trans_splicing, anticodon=NNN (for tRNAs), old_locus_tag=XXX.}
 }
 \references{
-Hulsman Hanna, L. L., and D. G. Riley. 2014. Mapping genomic markers to closest feature using the R package Map2NCBI. Livest. Sci. 162:59-65. doi:\href{https://doi.org/10.1016/j.livsci.2014.01.019}{10.1016/j.livsci.2014.01.019}
+Hulsman Hanna, L. L., and D. G. Riley. 2014. Mapping genomic markers to closest feature using the R package Map2NCBI. Livest. Sci. 162:59-65. \doi{doi:10.1016/j.livsci.2014.01.019}.
 
-National Center for Biotechnology Information. 2018. Latest assembly version 'README' file, last updated 26 February 2018. Available at: \url{https://ftp.ncbi.nlm.nih.gov/genomes/refseq/README.txt} (Accessed 23 Jan 2020).
+National Center for Biotechnology Information. 2020. Latest assembly version 'README' file, last updated 27 January 2020. Available at: \url{https://ftp.ncbi.nlm.nih.gov/genomes/refseq/README.txt} (Accessed 17 Apr 2025).
 }
 \author{
 Lauren L. Hulsman Hanna and
@@ -75,7 +75,7 @@ For issues or problems with this function, please contact Lauren Hanna at \email
 
 \seealso{
   Function: \code{\link{MapMarkers}},
-  Package: \pkg{\link{rentrez}}
+  Package: \link[rentrez]{rentrez}
 }
 \examples{
 #Example 1: Run the following example and, when prompted,
